@@ -1,0 +1,54 @@
+// protoのバージョンの宣言
+syntax = "proto3";
+
+// protoファイルから自動生成させるGoのコードの置き先
+option go_package = "pkg/grpc";
+
+// packageの宣言
+package ec;
+
+// カートサービスの定義
+service CartService {
+	// サービスが持つメソッドの定義
+    rpc GetProducts(GetProductsRequest) returns (GetProductsResponse);
+}
+
+// 型の定義
+message GetProductsRequest {
+	string user_id = 1;
+}
+
+message GetProductsResponse {
+    message Product {
+        string product_id = 1;
+        int32 qty = 2;
+    }
+    repeated Product product = 1;
+}
+
+
+// 商品サービスの定義
+service ProductService {
+    rpc GetInfo(GetInfoRequest) returns (GetInfoResponse);
+}
+
+// 型の定義
+message GetInfoRequest {
+    string id = 1;
+}
+
+message GetInfoResponse {
+    string id = 1;
+    string name = 2;
+    Genre genre = 3;
+    int32 price = 4;
+}
+
+enum Genre {
+    UNKNOWN = 0;
+    CD = 1;
+    DVD = 2;
+    BOOK = 3;
+    GOODS = 4;
+}
+
